@@ -1,0 +1,49 @@
+<!-- Licensed under a BSD license. See license.html for license -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Trabalho 1 </title>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+
+<body onload="main();">
+    <div id="canvas-menu-list">
+        <div id="title-box">
+            Menu
+            <div class="icons-box">
+                <i id="menu-import" class="fa fa-upload icons" style="font-size:24px"></i>
+                <span id="menu-save" class="glyphicon glyphicon-floppy-disk icons" style="font-size:24px"></span>
+            </div>
+        </div>
+        <div id='onSceneItens' class="menu-box">
+        </div>
+        <div class="menu-box">
+            Menu
+        </div>
+    </div>
+
+    <div>
+        <canvas id="canvas-surface" width="100%" height="100%">
+            Seu navegador não suporta HTML5
+        </canvas>
+    </div>
+
+    <div id="canvas-objects-list">
+        <div id="title-box">
+            Modelos
+        </div>
+    </div>
+
+    <script src="https://twgljs.org/dist/4.x/twgl-full.min.js"></script>
+    <script src="https://webgl2fundamentals.org/webgl/resources/m4.js"></script>
+    <script src="main.js"></script>
+</body>
+<script>
+</script>
+
+</html>
