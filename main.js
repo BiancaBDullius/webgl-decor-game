@@ -111,7 +111,7 @@ let loadObjectsMenu = async () => {
 			-1);
 		const cameraTarget = [0, 0, 0];
 
-		const radius = m4.length(range) * 1.5;
+		const radius = m4.length(range) * 1.2;
 		const cameraPosition = m4.addVectors(cameraTarget, [
 			0,
 			0,
@@ -202,9 +202,27 @@ const main = async () => {
 		return;
 	}
 
-	canvas.style.backgroundColor = '#f0daee99';
+	const rootStyles = getComputedStyle(document.documentElement);
+	const corBackground = rootStyles.getPropertyValue('--cor-background');
+
+	canvas.style.backgroundColor = corBackground;
 	canvas.height = window.innerHeight;
 	canvas.width = window.innerWidth * 0.6;
+
+	//COMEÇA AQUI
+
+
+
+
+
+
+
+
+
+
+	//TERMINA AQUI
+
+
 }
 main();
 loadObjectsMenu();

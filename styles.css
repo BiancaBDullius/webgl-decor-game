@@ -3,9 +3,23 @@
     --cor-border: #f0daee;
     --cor-icons: rgb(185, 2, 176);
     --cor-title: rgba(185, 2, 176, 0.35);
-    --cor-text: #2c022aa9;
+    --cor-text: #751e71;
     --cor-menu-box: #f0daee99;
     --tamanho-fonte: 25px;
+    --cor-obj-background: rgb(240, 218, 238);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --cor-background: #181717;
+        --cor-border: #110512;
+        --cor-icons: #fd74f6;
+        --cor-title: rgb(229 103 223 / 59%);
+        --cor-text: rgb(217 214 209);
+        --cor-menu-box: rgb(62 1 57 / 72%);
+        --tamanho-fonte: 25px;
+        --cor-obj-background: rgb(125 26 116);
+    }
 }
 
 body {
@@ -14,9 +28,9 @@ body {
 }
 
 .canvas-element-list-box {
-    background-color: rgb(240, 218, 238);
+    background-color: var(--cor-obj-background);
     width: 100%;
-    height: 300px;
+    height: auto;
     border-radius: 20px;
     box-shadow: 4px 4px 10px 0.1px gray;
     margin: 10px;
