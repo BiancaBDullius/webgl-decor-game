@@ -377,6 +377,35 @@ export function degToRad(deg) {
     return deg * Math.PI / 180;
 }
 
+export function changeThemeMode(mode) {
+    const root = document.documentElement;
+    let icon = document.getElementById('theme-icon')
+
+    if (mode === 'light') {
+        // Mudar para o modo escuro
+        root.style.setProperty('--cor-background', '#181717');
+        root.style.setProperty('--cor-border', '#110512');
+        root.style.setProperty('--cor-icons', '#fd74f6');
+        root.style.setProperty('--cor-title', 'rgb(229 103 223 / 59%)');
+        root.style.setProperty('--cor-text', 'rgb(217 214 209)');
+        root.style.setProperty('--cor-menu-box', 'rgb(62 1 57 / 72%)');
+        root.style.setProperty('--cor-obj-background', 'rgb(125 26 116)');
+        icon.className = 'fa fa-lightbulb-o';
+        return 'dark'
+    } else if (mode === 'dark') {
+        // Mudar para o modo claro
+        root.style.setProperty('--cor-background', '#eaeaea');
+        root.style.setProperty('--cor-border', '#f0daee');
+        root.style.setProperty('--cor-icons', 'rgb(185, 2, 176)');
+        root.style.setProperty('--cor-title', 'rgba(185, 2, 176, 0.35)');
+        root.style.setProperty('--cor-text', '#751e71');
+        root.style.setProperty('--cor-menu-box', '#f0daee99');
+        root.style.setProperty('--cor-obj-background', 'rgb(240, 218, 238)');
+        icon.className = 'fa fa-moon-o icons';
+        return 'light'
+    }
+}
+
 export const objPath = './assets/KayKit_Furniture_Bits_1.0_FREE/Assets/obj';
 export const mtlPath = './assets/KayKit_Furniture_Bits_1.0_FREE/Assets/obj';
 export const texturePath = './assets/KayKit_Furniture_Bits_1.0_FREE/Assets/texture/furniturebits_texture.png';

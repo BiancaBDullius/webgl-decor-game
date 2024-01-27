@@ -27,6 +27,12 @@ body {
     display: flex;
 }
 
+#canvas-surface {
+    background-color: var(--cor-background);
+    height: 100vh;
+    width: 60vw;
+}
+
 .canvas-element-list-box {
     background-color: var(--cor-obj-background);
     width: 100%;
@@ -105,15 +111,24 @@ body {
     opacity: 1;
 }
 
+.theme {
+    background-color: var(--cor-menu-box);
+    color: var(--cor-icons);
+    position: absolute;
+    margin-left: 95vw;
+    margin-top: 2vh;
+    border-radius: 50px;
+    border: 0px;
+}
 
-/* ===== Scrollbar CSS ===== */
-/* Firefox */
+
+
+
 * {
     scrollbar-width: auto;
     scrollbar-color: var(--cor-title) var(--cor-menu-box);
 }
 
-/* Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
     width: 8px;
 }

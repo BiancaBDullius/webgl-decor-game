@@ -14,8 +14,11 @@ import {
 	loadFileContent,
 	getExtents,
 	getGeometriesExtents,
-	degToRad
+	degToRad,
+	changeThemeMode
 } from './utils.js';
+
+let themeMode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 
 let objOnSceneIdCount = 0;
 
@@ -196,27 +199,23 @@ let addObjToMenu = (onSceneId, obj) => {
 }
 
 const main = async () => {
+	const theme = document.getElementById('theme');
+
+	theme.onclick = () => {
+		themeMode = changeThemeMode(themeMode);
+	};
+
+	loadObjectsMenu();
+
 	const canvas = document.getElementById("canvas-surface");
 	const gl = canvas.getContext("webgl2");
 	if (!gl) {
 		return;
 	}
 
-	const rootStyles = getComputedStyle(document.documentElement);
-	const corBackground = rootStyles.getPropertyValue('--cor-background');
 
-	canvas.style.backgroundColor = corBackground;
-	canvas.height = window.innerHeight;
-	canvas.width = window.innerWidth * 0.6;
 
 	//COMEÇA AQUI
-
-
-
-
-
-
-
 
 
 
@@ -224,5 +223,6 @@ const main = async () => {
 
 
 }
+
 main();
-loadObjectsMenu();
+
