@@ -25,6 +25,7 @@
 body {
     margin: 0;
     display: flex;
+    overflow: hidden;
 }
 
 #canvas-surface {
@@ -54,6 +55,7 @@ body {
     padding: 20px;
     border: 8px ridge var(--cor-border);
     background-color: var(--cor-background);
+    overflow-x: auto;
 }
 
 #canvas-menu-list {
