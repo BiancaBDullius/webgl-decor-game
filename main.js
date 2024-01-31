@@ -93,6 +93,14 @@ let handleSelectedObjOnScene = (onSceneId) => {
 	let div = document.getElementById(`menu-scene-item ${onSceneId}`);
 	div.style.opacity = 1;
 	selectedObjOnScene = onSceneId;
+
+	let index;
+	objsOnScene.map((object, i) => {
+		if(object.onSceneId == selectedObjOnScene) index = i;
+	})
+	
+	let input = document.getElementById('input-size');
+	input.value =  objsOnScene[index].values.size;
 }
 
 const main = async () => {
@@ -106,16 +114,17 @@ const main = async () => {
 
 	//COMEÇA AQUI
 
-	let input = document.getElementById('input-range');
+	let input = document.getElementById('input-size');
 
 	input.onmousemove = () => {
-		console.log('mudou valor', input.value, objsOnScene)
+		console.log('mudou valor', input.value, objsOnScene, selectedObjOnScene )
 		if (selectedObjOnScene) {
-			let index = objsOnScene.map((obj, index) => {
-				if (obj.onSceneId = selectedObjOnScene) return index;
+			let index = null;
+			objsOnScene.map((obj, i) => {
+				if (obj.onSceneId == selectedObjOnScene) index = i;
 			})
-
-			objsOnScene[index].valorInput = input.value;
+			console.log('INDEX RETORNADO', index)
+			objsOnScene[index].values.size = input.value;
 			renderScene();
 		}
 	}

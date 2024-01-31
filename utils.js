@@ -1,11 +1,11 @@
 
 export let objs = [
-    { id: "1", name: 'Cadeira', canvas: null, fileMTL: 'chair_A.mtl', fileOBJ: 'chair_A.obj', inputValue: 0.5 },
-    { id: "2", name: 'Poltrona', canvas: null, fileMTL: 'armchair.mtl', fileOBJ: 'armchair.obj', inputValue: 0.5 },
-    { id: "3", name: 'Poltrona 2', canvas: null, fileMTL: 'armchair_pillows.mtl', fileOBJ: 'armchair_pillows.obj', inputValue: 0.5 },
-    { id: "4", name: 'Cama casal A', canvas: null, fileMTL: 'bed_double_A.mtl', fileOBJ: 'bed_double_A.obj', inputValue: 0.5 },
-    { id: "5", name: 'Cama casal B', canvas: null, fileMTL: 'bed_double_B.mtl', fileOBJ: 'bed_double_B.obj', inputValue: 0.5 },
-    { id: "6", name: 'Cama solteiro A', canvas: null, fileMTL: 'bed_single_A.mtl', fileOBJ: 'bed_single_A.obj', inputValue: 0.5 }
+    { id: "1", name: 'Cadeira', canvas: null, fileMTL: 'chair_A.mtl', fileOBJ: 'chair_A.obj', values: {size: 5} },
+    { id: "2", name: 'Poltrona', canvas: null, fileMTL: 'armchair.mtl', fileOBJ: 'armchair.obj', values: {size: 5} },
+    { id: "3", name: 'Poltrona 2', canvas: null, fileMTL: 'armchair_pillows.mtl', fileOBJ: 'armchair_pillows.obj', values: {size: 5} },
+    { id: "4", name: 'Cama casal A', canvas: null, fileMTL: 'bed_double_A.mtl', fileOBJ: 'bed_double_A.obj', values: {size: 5} },
+    { id: "5", name: 'Cama casal B', canvas: null, fileMTL: 'bed_double_B.mtl', fileOBJ: 'bed_double_B.obj', values: {size: 5} },
+    { id: "6", name: 'Cama solteiro A', canvas: null, fileMTL: 'bed_single_A.mtl', fileOBJ: 'bed_single_A.obj', values: {size: 5} }
 ];
 
 export let objsRenderInfo = [];
@@ -609,7 +609,7 @@ export async function renderSceneObjs(gl, renderObj, id) {
         -1);
     const cameraTarget = [0, 0, 0];
 
-    const radius = m4.length(range) * 1.2;
+    const radius = m4.length(range) * renderObj.values.size;
     const cameraPosition = m4.addVectors(cameraTarget, [
         0,
         0,
