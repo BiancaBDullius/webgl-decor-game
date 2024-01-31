@@ -1,12 +1,13 @@
 import {
 	objs,
-	changeThemeMode, renderObj
+	changeThemeMode, renderObj, renderSceneObjs
 } from './utils.js';
 
 let themeMode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 let objsOnScene = [];
 let objOnSceneIdCount = 0;
 const canvas = document.getElementById("canvas-surface");
+const glScene = canvas.getContext("webgl2");
 
 let loadObjectsMenu = async () => {
 	for (let i = 0; i < objs.length; i++) {
@@ -22,12 +23,14 @@ let loadObjectsMenu = async () => {
 			console.log(objs[i]['id'] + ' obj clicado')
 			objOnSceneIdCount++;
 			objsOnScene.push({ onSceneId: objOnSceneIdCount, ...objs[i] });
-			const gl = canvas.getContext("webgl2");
-			if (!gl) {
+
+			if (!glScene) {
 				return;
 			}
 
-			renderObj(gl, { onSceneId: objOnSceneIdCount, ...objs[i] });
+			for (let z = 0; z < objsOnScene.length; z++) {
+				renderSceneObjs(glScene, objsOnScene[z], objsOnScene[z].objOnSceneIdCount);
+			}
 
 			addObjToMenu(objOnSceneIdCount, objs[i]);
 		}
@@ -42,16 +45,20 @@ let loadObjectsMenu = async () => {
 }
 
 let removeObjOnScene = (id) => {
+	console.log(objsOnScene)
 	console.log("chega aqui")
 	objsOnScene = objsOnScene.filter(function (obj) {
 		return obj.onSceneId !== id;
 	});
+	for (let z = 0; z < objsOnScene.length; z++) {
+		renderSceneObjs(glScene, objsOnScene[z], objsOnScene[z].objOnSceneIdCount);
+	}
 }
 
 let addObjToMenu = (onSceneId, obj) => {
 	var div = document.createElement('div');
 	div.className = 'menu-scene-item';
-	div.id = 'menu-scene-item';
+	div.id = `menu-scene-item ${onSceneId}`;
 	div.appendChild(document.createTextNode(obj.name));
 
 	var icon = document.createElement('i');
@@ -75,13 +82,8 @@ const main = async () => {
 	theme.onclick = () => {
 		themeMode = changeThemeMode(themeMode);
 	};
-
+	console.log(objsOnScene)
 	loadObjectsMenu();
-
-	// const gl = canvas.getContext("webgl2");
-	// if (!gl) {
-	// 	return;
-	// }
 
 	//COMEÇA AQUI
 
