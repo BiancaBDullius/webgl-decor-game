@@ -6,6 +6,7 @@ import {
 let themeMode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 let objsOnScene = [];
 let objOnSceneIdCount = 0;
+let selectedObjOnScene = null;
 const canvas = document.getElementById("canvas-surface");
 const glScene = canvas.getContext("webgl2");
 
@@ -28,9 +29,7 @@ let loadObjectsMenu = async () => {
 				return;
 			}
 
-			for (let z = 0; z < objsOnScene.length; z++) {
-				renderSceneObjs(glScene, objsOnScene[z], objsOnScene[z].objOnSceneIdCount);
-			}
+			renderScene();
 
 			addObjToMenu(objOnSceneIdCount, objs[i]);
 		}
@@ -44,15 +43,19 @@ let loadObjectsMenu = async () => {
 	}
 }
 
+let renderScene = () => {
+	for (let z = 0; z < objsOnScene.length; z++) {
+		renderSceneObjs(glScene, objsOnScene[z], objsOnScene[z].objOnSceneIdCount);
+	}
+}
+
 let removeObjOnScene = (id) => {
 	console.log(objsOnScene)
 	console.log("chega aqui")
 	objsOnScene = objsOnScene.filter(function (obj) {
 		return obj.onSceneId !== id;
 	});
-	for (let z = 0; z < objsOnScene.length; z++) {
-		renderSceneObjs(glScene, objsOnScene[z], objsOnScene[z].objOnSceneIdCount);
-	}
+	renderScene();
 }
 
 let addObjToMenu = (onSceneId, obj) => {
@@ -61,11 +64,17 @@ let addObjToMenu = (onSceneId, obj) => {
 	div.id = `menu-scene-item ${onSceneId}`;
 	div.appendChild(document.createTextNode(obj.name));
 
+	div.onclick = () => {
+
+		handleSelectedObjOnScene(onSceneId);
+	}
+
 	var icon = document.createElement('i');
 	icon.id = onSceneId;
 	icon.className = 'fa fa-trash icons';
 	icon.style.fontSize = '24px';
 	icon.onclick = () => {
+		selectedObjOnScene = null;
 		div.remove();
 		removeObjOnScene(onSceneId);
 	}
@@ -74,6 +83,16 @@ let addObjToMenu = (onSceneId, obj) => {
 
 	var onSceneItensDiv = document.getElementById('onSceneItens');
 	onSceneItensDiv.appendChild(div);
+}
+
+let handleSelectedObjOnScene = (onSceneId) => {
+	if (selectedObjOnScene) {
+		let previousSelected = document.getElementById(`menu-scene-item ${selectedObjOnScene}`)
+		previousSelected.style.opacity = 0.5;
+	}
+	let div = document.getElementById(`menu-scene-item ${onSceneId}`);
+	div.style.opacity = 1;
+	selectedObjOnScene = onSceneId;
 }
 
 const main = async () => {
@@ -87,7 +106,19 @@ const main = async () => {
 
 	//COMEÇA AQUI
 
+	let input = document.getElementById('input-range');
 
+	input.onmousemove = () => {
+		console.log('mudou valor', input.value, objsOnScene)
+		if (selectedObjOnScene) {
+			let index = objsOnScene.map((obj, index) => {
+				if (obj.onSceneId = selectedObjOnScene) return index;
+			})
+
+			objsOnScene[index].valorInput = input.value;
+			renderScene();
+		}
+	}
 
 	//TERMINA AQUI
 

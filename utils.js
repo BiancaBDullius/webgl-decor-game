@@ -1,11 +1,11 @@
 
 export let objs = [
-    { id: "1", name: 'Cadeira', canvas: null, fileMTL: 'chair_A.mtl', fileOBJ: 'chair_A.obj' },
-    { id: "2", name: 'Poltrona', canvas: null, fileMTL: 'armchair.mtl', fileOBJ: 'armchair.obj' },
-    { id: "3", name: 'Poltrona 2', canvas: null, fileMTL: 'armchair_pillows.mtl', fileOBJ: 'armchair_pillows.obj' },
-    { id: "4", name: 'Cama casal A', canvas: null, fileMTL: 'bed_double_A.mtl', fileOBJ: 'bed_double_A.obj' },
-    { id: "5", name: 'Cama casal B', canvas: null, fileMTL: 'bed_double_B.mtl', fileOBJ: 'bed_double_B.obj' },
-    { id: "6", name: 'Cama solteiro A', canvas: null, fileMTL: 'bed_single_A.mtl', fileOBJ: 'bed_single_A.obj' }
+    { id: "1", name: 'Cadeira', canvas: null, fileMTL: 'chair_A.mtl', fileOBJ: 'chair_A.obj', inputValue: 0.5 },
+    { id: "2", name: 'Poltrona', canvas: null, fileMTL: 'armchair.mtl', fileOBJ: 'armchair.obj', inputValue: 0.5 },
+    { id: "3", name: 'Poltrona 2', canvas: null, fileMTL: 'armchair_pillows.mtl', fileOBJ: 'armchair_pillows.obj', inputValue: 0.5 },
+    { id: "4", name: 'Cama casal A', canvas: null, fileMTL: 'bed_double_A.mtl', fileOBJ: 'bed_double_A.obj', inputValue: 0.5 },
+    { id: "5", name: 'Cama casal B', canvas: null, fileMTL: 'bed_double_B.mtl', fileOBJ: 'bed_double_B.obj', inputValue: 0.5 },
+    { id: "6", name: 'Cama solteiro A', canvas: null, fileMTL: 'bed_single_A.mtl', fileOBJ: 'bed_single_A.obj', inputValue: 0.5 }
 ];
 
 export let objsRenderInfo = [];
@@ -622,18 +622,6 @@ export async function renderSceneObjs(gl, renderObj, id) {
 
 
     function render(time) {
-        // let div = document.getElementById(`menu-scene-item ${id}`);
-        // let removeIcon = document.getElementById(id);
-
-        // function handleClick() {
-        //     animation = false;
-        //     div.remove();
-        //     removeIcon.removeEventListener('click', handleClick);
-        // }
-
-        // if (removeIcon && div) {
-        //     removeIcon.addEventListener('click', handleClick);
-        // }
         time *= 0;
 
         twgl.resizeCanvasToDisplaySize(gl.canvas);
