@@ -1,11 +1,11 @@
 
 export let objs = [
-    { id: "1", name: 'Cadeira', canvas: null, fileMTL: 'chair_A.mtl', fileOBJ: 'chair_A.obj', values: {size: 5} },
-    { id: "2", name: 'Poltrona', canvas: null, fileMTL: 'armchair.mtl', fileOBJ: 'armchair.obj', values: {size: 5} },
-    { id: "3", name: 'Poltrona 2', canvas: null, fileMTL: 'armchair_pillows.mtl', fileOBJ: 'armchair_pillows.obj', values: {size: 5} },
-    { id: "4", name: 'Cama casal A', canvas: null, fileMTL: 'bed_double_A.mtl', fileOBJ: 'bed_double_A.obj', values: {size: 5} },
-    { id: "5", name: 'Cama casal B', canvas: null, fileMTL: 'bed_double_B.mtl', fileOBJ: 'bed_double_B.obj', values: {size: 5} },
-    { id: "6", name: 'Cama solteiro A', canvas: null, fileMTL: 'bed_single_A.mtl', fileOBJ: 'bed_single_A.obj', values: {size: 5} }
+    { id: "1", name: 'Cadeira', canvas: null, fileMTL: 'chair_A.mtl', fileOBJ: 'chair_A.obj', values: { size: 5, rotationy: 0.001, changed: true } },
+    { id: "2", name: 'Poltrona', canvas: null, fileMTL: 'armchair.mtl', fileOBJ: 'armchair.obj', values: { size: 5, rotationy: 0.001, changed: true } },
+    { id: "3", name: 'Poltrona 2', canvas: null, fileMTL: 'armchair_pillows.mtl', fileOBJ: 'armchair_pillows.obj', values: { size: 5, rotationy: 0.001, changed: true } },
+    { id: "4", name: 'Cama casal A', canvas: null, fileMTL: 'bed_double_A.mtl', fileOBJ: 'bed_double_A.obj', values: { size: 5, rotationy: 0.001, changed: true } },
+    { id: "5", name: 'Cama casal B', canvas: null, fileMTL: 'bed_double_B.mtl', fileOBJ: 'bed_double_B.obj', values: { size: 5, rotationy: 0.001, changed: true } },
+    { id: "6", name: 'Cama solteiro A', canvas: null, fileMTL: 'bed_single_A.mtl', fileOBJ: 'bed_single_A.obj', values: { size: 5, rotationy: 0.001, changed: true } }
 ];
 
 export let objsRenderInfo = [];
@@ -408,7 +408,7 @@ export function changeThemeMode(mode) {
     }
 }
 
-export async function renderObj(gl, renderObj, animation = true) {
+export async function renderObj(gl, renderObj) {
     twgl.setAttributePrefix("a_");
 
     const meshProgramInfo = twgl.createProgramInfo(gl, [vs, fs]);
@@ -492,6 +492,7 @@ export async function renderObj(gl, renderObj, animation = true) {
     function render(time) {
         time *= 0.001;
 
+
         twgl.resizeCanvasToDisplaySize(gl.canvas);
         gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
         gl.enable(gl.DEPTH_TEST);
@@ -536,136 +537,6 @@ export async function renderObj(gl, renderObj, animation = true) {
 
 }
 
-export async function renderSceneObjs(gl, renderObj, id) {
-    let animation = true
-
-    twgl.setAttributePrefix("a_");
-
-    const meshProgramInfo = twgl.createProgramInfo(gl, [vs, fs]);
-
-    const objText = await loadFileContent(`${objPath}/${renderObj.fileOBJ}`);
-    const obj = parseOBJ(objText);
-    const mtlText = await loadFileContent(`${mtlPath}/${renderObj.fileMTL}`);
-    const materials = parseMTL(mtlText);
-
-    const textures = {
-        defaultWhite: twgl.createTexture(gl, { src: [255, 255, 255, 255] }),
-    };
-
-    for (const material of Object.values(materials)) {
-        Object.entries(material)
-            .filter(([key]) => key.endsWith('Map'))
-            .forEach(([key]) => {
-                const texture = twgl.createTexture(gl, { src: texturePath, flipY: true });
-                material[key] = texture;
-            });
-    }
-
-    Object.values(materials).forEach(m => {
-        m.shininess = 25;
-        m.specular = [3, 2, 1];
-    });
-
-    const defaultMaterial = {
-        diffuse: [1, 1, 1],
-        diffuseMap: textures.defaultWhite,
-        ambient: [0, 0, 0],
-        specular: [1, 1, 1],
-        specularMap: textures.defaultWhite,
-        shininess: 400,
-        opacity: 1,
-    };
-
-    const parts = obj.geometries.map(({ material, data }) => {
-        if (data.color) {
-            if (data.position.length === data.color.length) {
-                data.color = { numComponents: 3, data: data.color };
-            }
-        } else {
-            data.color = { value: [1, 1, 1, 1] };
-        }
-
-        const bufferInfo = twgl.createBufferInfoFromArrays(gl, data);
-        const vao = twgl.createVAOFromBufferInfo(gl, meshProgramInfo, bufferInfo);
-
-
-        return {
-            material: {
-                ...defaultMaterial,
-                ...materials[material],
-            },
-            bufferInfo,
-            vao,
-        };
-    });
-
-    const extents = getGeometriesExtents(obj.geometries);
-    const range = m4.subtractVectors(extents.max, extents.min);
-
-    const objOffset = m4.scaleVector(
-        m4.addVectors(
-            extents.min,
-            m4.scaleVector(range, 0.5)),
-        -1);
-    const cameraTarget = [0, 0, 0];
-
-    const radius = m4.length(range) * renderObj.values.size;
-    const cameraPosition = m4.addVectors(cameraTarget, [
-        0,
-        0,
-        radius,
-    ]);
-
-    const zNear = radius / 100;
-    const zFar = radius * 3;
-
-
-
-    function render(time) {
-        time *= 0;
-
-        twgl.resizeCanvasToDisplaySize(gl.canvas);
-        gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-        gl.enable(gl.DEPTH_TEST);
-
-        const fieldOfViewRadians = degToRad(60);
-        const aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
-        const projection = m4.perspective(fieldOfViewRadians, aspect, zNear, zFar);
-
-        const up = [0, 1, 0];
-        const camera = m4.lookAt(cameraPosition, cameraTarget, up);
-
-        const view = m4.inverse(camera);
-
-        const sharedUniforms = {
-            u_lightDirection: m4.normalize([-1, 3, 5]),
-            u_view: view,
-            u_projection: projection,
-            u_viewWorldPosition: cameraPosition,
-        };
-
-        gl.useProgram(meshProgramInfo.program);
-
-        twgl.setUniforms(meshProgramInfo, sharedUniforms);
-
-        let u_world = m4.yRotation(time);
-        u_world = m4.translate(u_world, ...objOffset);
-
-        for (const { bufferInfo, vao, material } of parts) {
-            gl.bindVertexArray(vao);
-
-            twgl.setUniforms(meshProgramInfo, {
-                u_world,
-            }, material);
-
-            twgl.drawBufferInfo(gl, bufferInfo);
-        }
-        // animation && requestAnimationFrame((time) => render(time));
-    }
-
-    requestAnimationFrame((time) => render(time));
-
-}
 
 
 export const objPath = './assets/KayKit_Furniture_Bits_1.0_FREE/Assets/obj';
