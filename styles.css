@@ -26,6 +26,7 @@ body {
     margin: 0;
     display: flex;
     overflow: hidden;
+    background-color: var(--cor-background);
 }
 
 #canvas-surface {
@@ -121,6 +122,19 @@ body {
     margin-top: 2vh;
     border-radius: 50px;
     border: 0px;
+}
+
+.menu-edit-item {
+    color: var(--cor-text);
+    font-family: monospace;
+    font-size: 16px;
+    padding: 5px;
+}
+
+input {
+    background-color: var(--cor-obj-background);
+    border-radius: 5px;
+    border-color: var(--cor-obj-background)
 }
 
 
