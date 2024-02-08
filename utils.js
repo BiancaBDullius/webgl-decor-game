@@ -537,6 +537,22 @@ export async function renderObj(gl, renderObj) {
 
 }
 
+export function deepCopy(obj) {
+    if (typeof obj !== 'object' || obj === null) {
+        return obj;
+    }
+
+    const newObj = Array.isArray(obj) ? [] : {};
+
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            newObj[key] = deepCopy(obj[key]);
+        }
+    }
+
+    return newObj;
+}
+
 export const objPath = './assets/obj';
 export const mtlPath = './assets/obj';
 export const texturePath = './assets/texture/';

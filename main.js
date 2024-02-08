@@ -1,6 +1,6 @@
 import {
 	objs,
-	changeThemeMode, renderObj, vs, fs, loadFileContent, objPath, mtlPath, parseOBJ, parseMTL, texturePath, getGeometriesExtents, degToRad
+	changeThemeMode, renderObj, vs, fs, loadFileContent, objPath, mtlPath, parseOBJ, parseMTL, texturePath, getGeometriesExtents, degToRad, deepCopy
 } from './utils.js';
 
 let themeMode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -27,8 +27,10 @@ let loadObjectsMenu = async () => {
 
 		objs[i]['canvas'].onclick = () => {
 			objOnSceneIdCount++;
-			objsOnScene.push({ onSceneId: objOnSceneIdCount, ...objs[i] });
-			addObjToMenu(objOnSceneIdCount, objs[i]);
+			let copyObj = deepCopy(objs[i]);
+			copyObj.id = objOnSceneIdCount;
+			objsOnScene.push({ onSceneId: objOnSceneIdCount, ...copyObj });
+			addObjToMenu(objOnSceneIdCount, copyObj);
 			renderSceneObjs(glScene)
 		}
 
@@ -45,6 +47,10 @@ let removeObjOnScene = (id) => {
 	objsOnScene = objsOnScene.filter(function (obj) {
 		if (obj.onSceneId != id) return obj;
 	});
+}
+
+let alertEdit = () => {
+	alert("Nenhum objeto selecionado!");
 }
 
 let addObjToMenu = (onSceneId, obj) => {
@@ -79,16 +85,15 @@ let handleSelectedObjOnScene = (onSceneId) => {
 		previousSelected.style.opacity = 0.5;
 	}
 	let div = document.getElementById(`menu-scene-item ${onSceneId}`);
+	let index;
 	if (div) {
 		div.style.opacity = 1;
 		selectedObjOnScene = onSceneId;
-		console.log("chegou aqui: ", onSceneId)
+		objsOnScene.map((object, i) => {
+			if (object.onSceneId == selectedObjOnScene) index = i;
+		})
 	}
 
-	let index;
-	objsOnScene.map((object, i) => {
-		if (object.onSceneId == selectedObjOnScene) index = i;
-	})
 	if (index) {
 		let inputSize = document.getElementById('input-size');
 		let inputRotationX = document.getElementById('input-rotation-x');
@@ -278,7 +283,7 @@ const main = async () => {
 			objsOnScene[index].texture = colorRed.id;
 			objsOnScene[index].values.changed = true;
 			renderSceneObjs(glScene)
-		}
+		} else alertEdit()
 	}
 	colorPink.onclick = () => {
 		if (selectedObjOnScene) {
@@ -289,7 +294,7 @@ const main = async () => {
 			objsOnScene[index].texture = colorPink.id;
 			objsOnScene[index].values.changed = true;
 			renderSceneObjs(glScene)
-		}
+		} else alertEdit()
 	}
 	colorBlue.onclick = () => {
 		if (selectedObjOnScene) {
@@ -300,7 +305,7 @@ const main = async () => {
 			objsOnScene[index].texture = colorBlue.id;
 			objsOnScene[index].values.changed = true;
 			renderSceneObjs(glScene)
-		}
+		} else alertEdit()
 	}
 	colorPurple.onclick = () => {
 		if (selectedObjOnScene) {
@@ -311,7 +316,7 @@ const main = async () => {
 			objsOnScene[index].texture = colorPurple.id;
 			objsOnScene[index].values.changed = true;
 			renderSceneObjs(glScene)
-		}
+		} else alertEdit()
 	}
 	colorOrange.onclick = () => {
 		if (selectedObjOnScene) {
@@ -322,7 +327,7 @@ const main = async () => {
 			objsOnScene[index].texture = colorOrange.id;
 			objsOnScene[index].values.changed = true;
 			renderSceneObjs(glScene)
-		}
+		} else alertEdit()
 	}
 	colorGray.onclick = () => {
 		if (selectedObjOnScene) {
@@ -333,7 +338,7 @@ const main = async () => {
 			objsOnScene[index].texture = colorGray.id;
 			objsOnScene[index].values.changed = true;
 			renderSceneObjs(glScene)
-		}
+		} else alertEdit()
 	}
 
 
@@ -344,8 +349,9 @@ const main = async () => {
 				if (obj.onSceneId == selectedObjOnScene) index = i;
 			})
 			objsOnScene[index].values.rotationx = inputRotationX.value;
-		}
+		} else alertEdit()
 	}
+
 	inputRotationY.onchange = () => {
 		if (selectedObjOnScene) {
 			let index = null;
@@ -353,7 +359,7 @@ const main = async () => {
 				if (obj.onSceneId == selectedObjOnScene) index = i;
 			})
 			objsOnScene[index].values.rotationy = inputRotationY.value;
-		}
+		} else alertEdit()
 	}
 
 	inputX.onchange = () => {
@@ -364,8 +370,8 @@ const main = async () => {
 			})
 			objsOnScene[index].values.x = parseInt(inputX.value);
 			objsOnScene[index].values.changed = true;
-		}
-		renderSceneObjs(glScene)
+			renderSceneObjs(glScene)
+		} else alertEdit()
 	}
 
 	inputSize.onchange = () => {
@@ -376,8 +382,8 @@ const main = async () => {
 			})
 			objsOnScene[index].values.size = inputSize.value;
 			objsOnScene[index].values.changed = true;
-		}
-		renderSceneObjs(glScene)
+			renderSceneObjs(glScene)
+		} else alertEdit()
 	}
 
 	inputY.onchange = () => {
@@ -388,8 +394,8 @@ const main = async () => {
 			})
 			objsOnScene[index].values.y = parseInt(inputY.value);
 			objsOnScene[index].values.changed = true;
-		}
-		renderSceneObjs(glScene)
+			renderSceneObjs(glScene)
+		} else alertEdit()
 	}
 	inputZ.onchange = () => {
 		if (selectedObjOnScene) {
@@ -399,11 +405,10 @@ const main = async () => {
 			})
 			objsOnScene[index].values.z = parseInt(inputZ.value);
 			objsOnScene[index].values.changed = true;
-		}
-		renderSceneObjs(glScene)
+			renderSceneObjs(glScene)
+		} else alertEdit()
 	}
 	saveButton.addEventListener('click', () => {
-		console.log('OBJS ON SCENE NO MAIN', objsOnScene)
 		let copyObjsOnScene = objsOnScene.map((obj) => {
 			return {
 				onSceneId: obj.onSceneId,
@@ -412,6 +417,7 @@ const main = async () => {
 				canvas: obj.canvas,
 				fileMTL: obj.fileMTL,
 				fileOBJ: obj.fileOBJ,
+				texture: obj.texture,
 				values: {
 					size: obj.size ? obj.size : 5,
 					rotationx: obj.values.rotationx || 0.001,
@@ -428,7 +434,6 @@ const main = async () => {
 			}
 		})
 
-		console.log("Copia do obj on scene", copyObjsOnScene)
 		const data = JSON.stringify(copyObjsOnScene);
 		const blob = new Blob([data], { type: 'application/json' });
 		const url = window.URL.createObjectURL(blob);
@@ -452,14 +457,12 @@ const main = async () => {
 				const content = e.target.result;
 				const importedObjsOnScene = JSON.parse(content);
 
-				console.log(importedObjsOnScene);
 				objsOnScene = [];
 				objsOnScene = importedObjsOnScene;
 				objsOnScene.map((obj) => {
 					obj.values.changed = true;
 					addObjToMenu(obj.onSceneId, obj)
 				})
-				console.log('AQUI 387', objsOnScene)
 				objOnSceneIdCount = objsOnScene.length + 1;
 				renderSceneObjs(glScene);
 			};
