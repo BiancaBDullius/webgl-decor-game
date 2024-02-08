@@ -1,6 +1,6 @@
 import {
 	objs,
-	changeThemeMode, renderObj, vs, fs, loadFileContent, objPath, mtlPath, parseOBJ, parseMTL, texturePath, getGeometriesExtents, getExtents, degToRad
+	changeThemeMode, renderObj, vs, fs, loadFileContent, objPath, mtlPath, parseOBJ, parseMTL, texturePath, getGeometriesExtents, degToRad
 } from './utils.js';
 
 let themeMode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -90,11 +90,13 @@ let handleSelectedObjOnScene = (onSceneId) => {
 		if (object.onSceneId == selectedObjOnScene) index = i;
 	})
 	if (index) {
+		let inputSize = document.getElementById('input-size');
 		let inputRotationX = document.getElementById('input-rotation-x');
 		let inputRotationY = document.getElementById('input-rotation-y');
 		let input0 = document.getElementById('input-0');
 		let input1 = document.getElementById('input-1');
 		let input2 = document.getElementById('input-2');
+		inputSize.value = objsOnScene[index].values.size;
 		inputRotationX.value = objsOnScene[index].values.rotationx;
 		inputRotationY.value = objsOnScene[index].values.rotationy;
 		input0.value = objsOnScene[index].values.x;
@@ -118,7 +120,7 @@ async function renderSceneObjs(gl) {
 				Object.entries(material)
 					.filter(([key]) => key.endsWith('Map'))
 					.forEach(([key]) => {
-						const texture = twgl.createTexture(gl, { src: texturePath, flipY: true });
+						const texture = twgl.createTexture(gl, { src: texturePath + objsOnScene[i].texture, flipY: true });
 						material[key] = texture;
 					});
 			}
@@ -252,7 +254,7 @@ const main = async () => {
 	};
 	loadObjectsMenu();
 
-	// let inputSize = document.getElementById('input-size');
+	let inputSize = document.getElementById('input-size');
 	let inputRotationX = document.getElementById('input-rotation-x');
 	let inputRotationY = document.getElementById('input-rotation-y');
 	let inputX = document.getElementById('input-0');
@@ -260,6 +262,80 @@ const main = async () => {
 	let saveButton = document.getElementById('menu-save');
 	let importButton = document.getElementById('menu-import');
 	let inputZ = document.getElementById('input-2');
+	let colorRed = document.getElementById('texture_red.png');
+	let colorPink = document.getElementById('texture_pink.png');
+	let colorBlue = document.getElementById('texture_blue.png');
+	let colorPurple = document.getElementById('texture_purple.png');
+	let colorOrange = document.getElementById('texture_orange.png');
+	let colorGray = document.getElementById('texture_gray.png');
+
+	colorRed.onclick = () => {
+		if (selectedObjOnScene) {
+			let index = null;
+			objsOnScene.map((obj, i) => {
+				if (obj.onSceneId == selectedObjOnScene) index = i;
+			})
+			objsOnScene[index].texture = colorRed.id;
+			objsOnScene[index].values.changed = true;
+			renderSceneObjs(glScene)
+		}
+	}
+	colorPink.onclick = () => {
+		if (selectedObjOnScene) {
+			let index = null;
+			objsOnScene.map((obj, i) => {
+				if (obj.onSceneId == selectedObjOnScene) index = i;
+			})
+			objsOnScene[index].texture = colorPink.id;
+			objsOnScene[index].values.changed = true;
+			renderSceneObjs(glScene)
+		}
+	}
+	colorBlue.onclick = () => {
+		if (selectedObjOnScene) {
+			let index = null;
+			objsOnScene.map((obj, i) => {
+				if (obj.onSceneId == selectedObjOnScene) index = i;
+			})
+			objsOnScene[index].texture = colorBlue.id;
+			objsOnScene[index].values.changed = true;
+			renderSceneObjs(glScene)
+		}
+	}
+	colorPurple.onclick = () => {
+		if (selectedObjOnScene) {
+			let index = null;
+			objsOnScene.map((obj, i) => {
+				if (obj.onSceneId == selectedObjOnScene) index = i;
+			})
+			objsOnScene[index].texture = colorPurple.id;
+			objsOnScene[index].values.changed = true;
+			renderSceneObjs(glScene)
+		}
+	}
+	colorOrange.onclick = () => {
+		if (selectedObjOnScene) {
+			let index = null;
+			objsOnScene.map((obj, i) => {
+				if (obj.onSceneId == selectedObjOnScene) index = i;
+			})
+			objsOnScene[index].texture = colorOrange.id;
+			objsOnScene[index].values.changed = true;
+			renderSceneObjs(glScene)
+		}
+	}
+	colorGray.onclick = () => {
+		if (selectedObjOnScene) {
+			let index = null;
+			objsOnScene.map((obj, i) => {
+				if (obj.onSceneId == selectedObjOnScene) index = i;
+			})
+			objsOnScene[index].texture = colorGray.id;
+			objsOnScene[index].values.changed = true;
+			renderSceneObjs(glScene)
+		}
+	}
+
 
 	inputRotationX.onchange = () => {
 		if (selectedObjOnScene) {
@@ -287,6 +363,18 @@ const main = async () => {
 				if (obj.onSceneId == selectedObjOnScene) index = i;
 			})
 			objsOnScene[index].values.x = parseInt(inputX.value);
+			objsOnScene[index].values.changed = true;
+		}
+		renderSceneObjs(glScene)
+	}
+
+	inputSize.onchange = () => {
+		if (selectedObjOnScene) {
+			let index = null;
+			objsOnScene.map((obj, i) => {
+				if (obj.onSceneId == selectedObjOnScene) index = i;
+			})
+			objsOnScene[index].values.size = inputSize.value;
 			objsOnScene[index].values.changed = true;
 		}
 		renderSceneObjs(glScene)

@@ -26,6 +26,10 @@
         </div>
         <div class="menu-box">
             <div class="menu-edit-item">
+                Tamanho <input id="input-size" type="range" name="range-input" placeholder="Escala" step="0.1" value="5"
+                    min="0" max="10">
+            </div>
+            <div class="menu-edit-item">
                 Rotação X<input id="input-rotation-x" type="range" name="range-input" placeholder="Escala" step="0.001"
                     value="0" min="0" max="6.5">
             </div>
@@ -33,16 +37,33 @@
                 Rotação Y<input id="input-rotation-y" type="range" name="range-input" placeholder="Escala" step="0.001"
                     value="0" min="0" max="6.5">
             </div>
+            <div class="menu-edit-item">Posição do Objeto</div>
+            <div class="menu-edit-box">
+                <div class="menu-edit-item">X
+                    <input type="number" id="input-0" class="menu-input-movimentation" min="-100" max="100"><br />
+                </div>
+                <div class="menu-edit-item">Y
+                    <input type="number" id="input-1" class="menu-input-movimentation" min="-100" max="100"><br />
+                </div>
+                <div class="menu-edit-item">Z
+                    <input type="number" id="input-2" class="menu-input-movimentation" min="-100" max="100"><br />
+                </div>
+            </div>
+            <div class="menu-edit-item">Cor da Textura</div>
+            <div class="menu-edit-box">
+                <div id="texture_red.png" class="color-box" style="background-color: rgba(255, 39, 39, 0.932);">
+                </div>
+                <div id="texture_pink.png" class="color-box" style="background-color: rgba(249, 57, 163);">
+                </div>
+                <div id="texture_blue.png" class="color-box" style="background-color: rgb(86, 168, 255);">
+                </div>
+                <div id="texture_purple.png" class="color-box" style="background-color: #d406d4ab;">
+                </div>
+                <div id="texture_orange.png" class="color-box" style="background-color: rgb(255, 142, 101);"></div>
+                <div id="texture_gray.png" class="color-box" style="background-color: rgb(102, 102, 102);">
+                </div>
+            </div>
 
-            <div class="menu-edit-item">X
-                <input type="number" id="input-0" class="menu-input-movimentation" min="-100" max="100"><br />
-            </div>
-            <div class="menu-edit-item">Y
-                <input type="number" id="input-1" class="menu-input-movimentation" min="-100" max="100"><br />
-            </div>
-            <div class="menu-edit-item">Tamanho
-                <input type="number" id="input-2" class="menu-input-movimentation" min="-100" max="100"><br />
-            </div>
         </div>
     </div>
 

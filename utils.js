@@ -1,11 +1,11 @@
 
 export let objs = [
-    { id: "1", name: 'Cadeira', canvas: null, fileMTL: 'chair_A.mtl', fileOBJ: 'chair_A.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
-    { id: "2", name: 'Poltrona', canvas: null, fileMTL: 'armchair.mtl', fileOBJ: 'armchair.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
-    { id: "3", name: 'Poltrona 2', canvas: null, fileMTL: 'armchair_pillows.mtl', fileOBJ: 'armchair_pillows.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
-    { id: "4", name: 'Cama casal A', canvas: null, fileMTL: 'bed_double_A.mtl', fileOBJ: 'bed_double_A.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
-    { id: "5", name: 'Cama casal B', canvas: null, fileMTL: 'bed_double_B.mtl', fileOBJ: 'bed_double_B.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
-    { id: "6", name: 'Cama solteiro A', canvas: null, fileMTL: 'bed_single_A.mtl', fileOBJ: 'bed_single_A.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } }
+    { id: "1", name: 'Cadeira', canvas: null, fileMTL: 'chair_A.mtl', texture: 'texture_purple.png', fileOBJ: 'chair_A.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
+    { id: "2", name: 'Poltrona', canvas: null, fileMTL: 'armchair.mtl', texture: 'texture_purple.png', fileOBJ: 'armchair.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
+    { id: "3", name: 'Poltrona 2', canvas: null, fileMTL: 'armchair_pillows.mtl', texture: 'texture_purple.png', fileOBJ: 'armchair_pillows.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
+    { id: "4", name: 'Cama casal A', canvas: null, fileMTL: 'bed_double_A.mtl', texture: 'texture_purple.png', fileOBJ: 'bed_double_A.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
+    { id: "5", name: 'Cama casal B', canvas: null, fileMTL: 'bed_double_B.mtl', texture: 'texture_purple.png', fileOBJ: 'bed_double_B.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
+    { id: "6", name: 'Cama solteiro A', canvas: null, fileMTL: 'bed_single_A.mtl', texture: 'texture_purple.png', fileOBJ: 'bed_single_A.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } }
 ];
 
 export let objsRenderInfo = [];
@@ -426,7 +426,7 @@ export async function renderObj(gl, renderObj) {
         Object.entries(material)
             .filter(([key]) => key.endsWith('Map'))
             .forEach(([key]) => {
-                const texture = twgl.createTexture(gl, { src: texturePath, flipY: true });
+                const texture = twgl.createTexture(gl, { src: texturePath + renderObj.texture, flipY: true });
                 material[key] = texture;
             });
     }
@@ -537,8 +537,6 @@ export async function renderObj(gl, renderObj) {
 
 }
 
-
-
-export const objPath = './assets/KayKit_Furniture_Bits_1.0_FREE/Assets/obj';
-export const mtlPath = './assets/KayKit_Furniture_Bits_1.0_FREE/Assets/obj';
-export const texturePath = './assets/KayKit_Furniture_Bits_1.0_FREE/Assets/texture/furniturebits_texture.png';
+export const objPath = './assets/obj';
+export const mtlPath = './assets/obj';
+export const texturePath = './assets/texture/';

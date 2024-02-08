@@ -1,0 +1,68 @@
+[
+    {
+        "onSceneId": 1,
+        "id": "1",
+        "name": "Cadeira",
+        "canvas": {},
+        "fileMTL": "chair_A.mtl",
+        "fileOBJ": "chair_A.obj",
+        "values": {
+            "size": 5,
+            "rotationx": 0.001,
+            "rotationy": "6.022",
+            "x": 1,
+            "y": 0,
+            "z": 0,
+            "changed": true,
+            "objOffset": {
+                "0": 1,
+                "1": -0.6291630268096924,
+                "2": 0.047564491629600525
+            },
+            "cameraTarget": [
+                0,
+                0,
+                0
+            ],
+            "radius": 8.455955750143918,
+            "cameraPosition": {
+                "0": 0,
+                "1": 0,
+                "2": 8.455955505371094
+            }
+        }
+    },
+    {
+        "onSceneId": 2,
+        "id": "2",
+        "name": "Poltrona",
+        "canvas": {},
+        "fileMTL": "armchair.mtl",
+        "fileOBJ": "armchair.obj",
+        "values": {
+            "size": "4.3",
+            "rotationx": "0.082",
+            "rotationy": "0.247",
+            "x": -1,
+            "y": 0,
+            "z": 0,
+            "changed": true,
+            "objOffset": {
+                "0": -1,
+                "1": -0.612030029296875,
+                "2": -0.050000011920928955
+            },
+            "cameraTarget": [
+                0,
+                0,
+                0
+            ],
+            "radius": 11.61662562910201,
+            "cameraPosition": {
+                "0": 0,
+                "1": 0,
+                "2": 11.616625785827637
+            }
+        }
+    }
+]

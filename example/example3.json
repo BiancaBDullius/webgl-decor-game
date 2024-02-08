@@ -1,0 +1,56 @@
+[
+    {
+        "onSceneId": 2,
+        "id": "2",
+        "name": "Poltrona",
+        "canvas": {},
+        "fileMTL": "armchair.mtl",
+        "fileOBJ": "armchair.obj",
+        "values": {
+            "changed": true,
+            "objOffset": {
+                "0": -2,
+                "1": -0.612030029296875,
+                "2": -0.050000011920928955
+            },
+            "cameraTarget": [
+                0,
+                0,
+                0
+            ],
+            "cameraPosition": {
+                "0": 0,
+                "1": 0,
+                "2": 13.50770378112793
+            },
+            "radius": 13.507704219886058
+        }
+    },
+    {
+        "onSceneId": 3,
+        "id": "5",
+        "name": "Cama casal B",
+        "canvas": {},
+        "fileMTL": "bed_double_B.mtl",
+        "fileOBJ": "bed_double_B.obj",
+        "values": {
+            "changed": true,
+            "objOffset": {
+                "0": 3,
+                "1": -0.5,
+                "2": 0
+            },
+            "cameraTarget": [
+                0,
+                0,
+                0
+            ],
+            "cameraPosition": {
+                "0": 0,
+                "1": 0,
+                "2": 14.17061710357666
+            },
+            "radius": 14.170617274674825
+        }
+    }
+]
