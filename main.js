@@ -26,7 +26,6 @@ let loadObjectsMenu = async () => {
 		document.getElementById('canvas-objects-list').appendChild(objs[i]['canvas']);
 
 		objs[i]['canvas'].onclick = () => {
-			console.log(objs[i]['id'] + ' obj clicado')
 			objOnSceneIdCount++;
 			objsOnScene.push({ onSceneId: objOnSceneIdCount, ...objs[i] });
 			addObjToMenu(objOnSceneIdCount, objs[i]);
@@ -46,7 +45,6 @@ let removeObjOnScene = (id) => {
 	objsOnScene = objsOnScene.filter(function (obj) {
 		if (obj.onSceneId != id) return obj;
 	});
-	console.log(objsOnScene)
 }
 
 let addObjToMenu = (onSceneId, obj) => {
@@ -84,6 +82,7 @@ let handleSelectedObjOnScene = (onSceneId) => {
 	if (div) {
 		div.style.opacity = 1;
 		selectedObjOnScene = onSceneId;
+		console.log("chegou aqui: ", onSceneId)
 	}
 
 	let index;
@@ -92,9 +91,11 @@ let handleSelectedObjOnScene = (onSceneId) => {
 	})
 	if (index) {
 		let inputSize = document.getElementById('input-size');
-		let inputRotationY = document.getElementById('input-rotation-y');
+		let inputRotationX = document.getElementById('input-rotation-x');
+		let input0 = document.getElementById('input-0');
 		inputSize.value = objsOnScene[index].values.size;
-		inputRotationY.value = objsOnScene[index].values.rotationy;
+		inputRotationX.value = objsOnScene[index].values.rotationx;
+		input0.value = objsOnScene[index].values.x;
 	}
 
 }
@@ -103,14 +104,11 @@ async function renderSceneObjs(gl) {
 	for (let i = 0; i < objsOnScene.length; i++) {
 		if (objsOnScene[i] && objsOnScene[i].values.changed) {
 			objsOnScene[i].values.changed = false;
-			console.log("teve mudança")
 
 			const objText = await loadFileContent(`${objPath}/${objsOnScene[i].fileOBJ}`);
 			const obj = parseOBJ(objText);
 			const mtlText = await loadFileContent(`${mtlPath}/${objsOnScene[i].fileMTL}`);
 			const materials = parseMTL(mtlText);
-
-
 
 			for (const material of Object.values(materials)) {
 				Object.entries(material)
@@ -163,11 +161,16 @@ async function renderSceneObjs(gl) {
 
 			const extents = getGeometriesExtents(obj.geometries);
 			const range = m4.subtractVectors(extents.max, extents.min);
-			const objOffset = m4.scaleVector(
+			let objOffset = m4.scaleVector(
 				m4.addVectors(
 					extents.min,
-					m4.scaleVector(range, objsOnScene[i].values.size)),
+					m4.scaleVector(range, 0.5)),
 				-1);
+
+			objOffset[0] += objsOnScene[i].values.x;
+			objOffset[1] += objsOnScene[i].values.y;
+			objOffset[2] += objsOnScene[i].values.z;
+
 			const cameraTarget = [0, 0, 0];
 			const radius = m4.length(range) * objsOnScene[i].values.size;
 			const cameraPosition = m4.addVectors(cameraTarget, [
@@ -180,7 +183,6 @@ async function renderSceneObjs(gl) {
 			objsOnScene[i].values.radius = radius;
 			objsOnScene[i].values.cameraPosition = cameraPosition;
 		}
-
 	}
 }
 
@@ -215,9 +217,11 @@ async function render() {
 
 				twgl.setUniforms(meshProgramInfo, sharedUniforms);
 
-
-				let u_world = m4.yRotation(objOnScene.values.rotationy);
+				let u_world = m4.identity();
+				// console.log('objoffset:', objOnScene.canvas)
+				u_world = m4.yRotation(objOnScene.values.rotationy);
 				u_world = m4.translate(u_world, ...objOnScene.values.objOffset);
+				u_world = m4.multiply(m4.xRotation(objOnScene.values.rotationx), u_world);
 
 				for (const { bufferInfo, vao, material } of objOnScene.parts) {
 					glScene.bindVertexArray(vao);
@@ -246,9 +250,16 @@ const main = async () => {
 	loadObjectsMenu();
 
 	let inputSize = document.getElementById('input-size');
+	let inputRotationX = document.getElementById('input-rotation-x');
 	let inputRotationY = document.getElementById('input-rotation-y');
+	let inputX = document.getElementById('input-0');
+	let inputY = document.getElementById('input-1');
+	let saveButton = document.getElementById('menu-save');
+	let importButton = document.getElementById('menu-import');
+	// let inputZ = document.getElementById('input-2');
 
 	inputSize.onchange = () => {
+		console.log('mudou', objsOnScene)
 		if (selectedObjOnScene) {
 			let index = null;
 			objsOnScene.map((obj, i) => {
@@ -256,10 +267,22 @@ const main = async () => {
 			})
 			objsOnScene[index].values.size = inputSize.value;
 			objsOnScene[index].values.changed = true;
+			console.log('O OBJ QUE EU TO MUDANDO', objsOnScene, index)
 		}
 		renderSceneObjs(glScene)
 	}
 
+	inputRotationX.onchange = () => {
+		if (selectedObjOnScene) {
+			let index = null;
+			objsOnScene.map((obj, i) => {
+				if (obj.onSceneId == selectedObjOnScene) index = i;
+			})
+			objsOnScene[index].values.rotationx = inputRotationX.value;
+			objsOnScene[index].values.changed = true;
+		}
+		renderSceneObjs(glScene)
+	}
 	inputRotationY.onchange = () => {
 		if (selectedObjOnScene) {
 			let index = null;
@@ -271,6 +294,103 @@ const main = async () => {
 		}
 		renderSceneObjs(glScene)
 	}
+
+	inputX.onchange = () => {
+		if (selectedObjOnScene) {
+			let index = null;
+			objsOnScene.map((obj, i) => {
+				if (obj.onSceneId == selectedObjOnScene) index = i;
+			})
+			objsOnScene[index].values.x = parseInt(inputX.value);
+			objsOnScene[index].values.changed = true;
+		}
+		renderSceneObjs(glScene)
+	}
+
+	inputY.onchange = () => {
+		if (selectedObjOnScene) {
+			let index = null;
+			objsOnScene.map((obj, i) => {
+				if (obj.onSceneId == selectedObjOnScene) index = i;
+			})
+			objsOnScene[index].values.y = parseInt(inputY.value);
+			objsOnScene[index].values.changed = true;
+		}
+		renderSceneObjs(glScene)
+	}
+	// inputZ.onchange = () => {
+	// 	if (selectedObjOnScene) {
+	// 		let index = null;
+	// 		objsOnScene.map((obj, i) => {
+	// 			if (obj.onSceneId == selectedObjOnScene) index = i;
+	// 		})
+	// 		objsOnScene[index].values.z = parseInt(inputZ.value);
+	// 		objsOnScene[index].values.changed = true;
+	// 	}
+	// 	renderSceneObjs(glScene)
+	// }
+
+	saveButton.addEventListener('click', () => {
+		let copyObjsOnScene = objsOnScene.map((obj) => {
+			return {
+				onSceneId: obj.onSceneId,
+				id: obj.id,
+				name: obj.name,
+				canvas: obj.canvas,
+				fileMTL: obj.fileMTL,
+				fileOBJ: obj.fileOBJ,
+				values: {
+					size: obj.size,
+					rotationx: obj.rotationx,
+					rotationy: obj.rotationy,
+					x: obj.x,
+					y: obj.y,
+					z: obj.z,
+					changed: true,
+					objOffset: obj.values.objOffset,
+					cameraTarget: obj.values.cameraTarget,
+					cameraPosition: obj.values.cameraPosition,
+					radius: obj.values.radius,
+				}
+			}
+		})
+		const data = JSON.stringify(copyObjsOnScene);
+		const blob = new Blob([data], { type: 'application/json' });
+		const url = window.URL.createObjectURL(blob);
+		const a = document.createElement('a');
+		a.href = url;
+		a.download = 'objsOnScene.json';
+		document.body.appendChild(a);
+		a.click();
+		window.URL.revokeObjectURL(url);
+		document.body.removeChild(a);
+	});
+
+	importButton.addEventListener('click', () => {
+		const input = document.createElement('input');
+		input.type = 'file';
+		input.accept = '.json'; // Aceita apenas arquivos JSON
+		input.onchange = async (event) => {
+			const file = event.target.files[0];
+			const reader = new FileReader();
+			reader.onload = async (e) => {
+				const content = e.target.result;
+				const importedObjsOnScene = JSON.parse(content);
+				// Aqui você pode fazer o que quiser com o array importado
+				console.log(importedObjsOnScene);
+				objsOnScene = [];
+				objsOnScene = importedObjsOnScene;
+				objsOnScene.map((obj) => {
+					obj.values.changed = true;
+					addObjToMenu(obj.onSceneId, obj)
+				})
+				objOnSceneIdCount = objsOnScene.length + 1;
+				renderSceneObjs(glScene);
+			};
+			reader.readAsText(file);
+		};
+		input.click();
+	});
 }
 
 main();
