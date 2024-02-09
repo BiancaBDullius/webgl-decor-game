@@ -5,6 +5,7 @@ import {
 
 let themeMode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 let objsOnScene = [];
+let objsData = [];
 let objOnSceneIdCount = 0;
 let selectedObjOnScene = null;
 const canvas = document.getElementById("canvas-surface");
@@ -145,31 +146,34 @@ async function renderSceneObjs(gl) {
 				opacity: 1,
 			};
 
-			const parts = obj.geometries.map(({ material, data }) => {
-				if (data.color) {
-					if (data.position.length === data.color.length) {
-						data.color = { numComponents: 3, data: data.color };
+			let parts;
+			if (!objsData[objsOnScene[i].fileOBJ + objsOnScene[i].texture]) {
+				parts = obj.geometries.map(({ material, data }) => {
+					if (data.color) {
+						if (data.position.length === data.color.length) {
+							data.color = { numComponents: 3, data: data.color };
+						}
+					} else {
+						data.color = { value: [1, 1, 1, 1] };
 					}
-				} else {
-					data.color = { value: [1, 1, 1, 1] };
-				}
 
-				const bufferInfo = twgl.createBufferInfoFromArrays(gl, data);
-				const vao = twgl.createVAOFromBufferInfo(gl, meshProgramInfo, bufferInfo);
+					const bufferInfo = twgl.createBufferInfoFromArrays(gl, data);
+					const vao = twgl.createVAOFromBufferInfo(gl, meshProgramInfo, bufferInfo);
 
 
-				return {
-					material: {
-						...defaultMaterial,
-						...materials[material],
-					},
-					bufferInfo,
-					vao,
-				};
-			});
+					return {
+						material: {
+							...defaultMaterial,
+							...materials[material],
+						},
+						bufferInfo,
+						vao,
+					};
+				});
 
-			objsOnScene[i].parts = parts;
+				objsData[objsOnScene[i].fileOBJ + objsOnScene[i].texture] = parts;
 
+			}
 			const extents = getGeometriesExtents(obj.geometries);
 			const range = m4.subtractVectors(extents.max, extents.min);
 			let objOffset = m4.scaleVector(
@@ -200,7 +204,7 @@ async function renderSceneObjs(gl) {
 async function render() {
 	if (objsOnScene.length != 0) {
 		for (const objOnScene of objsOnScene) {
-			if (objOnScene.values.cameraPosition && objOnScene.parts) {
+			if (objOnScene.values.cameraPosition && objsData[objOnScene.fileOBJ + objOnScene.texture]) {
 
 				const zNear = objOnScene.values.radius / 100;
 				const zFar = objOnScene.values.radius * 3;
@@ -233,7 +237,7 @@ async function render() {
 				u_world = m4.translate(u_world, ...objOnScene.values.objOffset);
 				u_world = m4.multiply(m4.xRotation(objOnScene.values.rotationx), u_world);
 
-				for (const { bufferInfo, vao, material } of objOnScene.parts) {
+				for (const { bufferInfo, vao, material } of objsData[objOnScene.fileOBJ + objOnScene.texture]) {
 					glScene.bindVertexArray(vao);
 
 					twgl.setUniforms(meshProgramInfo, {
@@ -408,6 +412,7 @@ const main = async () => {
 			renderSceneObjs(glScene)
 		} else alertEdit()
 	}
+
 	saveButton.addEventListener('click', () => {
 		let copyObjsOnScene = objsOnScene.map((obj) => {
 			return {
@@ -442,8 +447,8 @@ const main = async () => {
 		a.download = 'objsOnScene.json';
 		document.body.appendChild(a);
 		a.click();
-		// window.URL.revokeObjectURL(url);
-		// document.body.removeChild(a);
+		window.URL.revokeObjectURL(url);
+		document.body.removeChild(a);
 	});
 
 	importButton.addEventListener('click', () => {
