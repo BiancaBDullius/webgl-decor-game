@@ -1,11 +1,16 @@
 
 export let objs = [
     { id: "1", name: 'Cadeira', canvas: null, fileMTL: 'chair_A.mtl', texture: 'texture_purple.png', fileOBJ: 'chair_A.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
-    { id: "2", name: 'Poltrona', canvas: null, fileMTL: 'armchair.mtl', texture: 'texture_purple.png', fileOBJ: 'armchair.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
-    { id: "3", name: 'Poltrona 2', canvas: null, fileMTL: 'armchair_pillows.mtl', texture: 'texture_purple.png', fileOBJ: 'armchair_pillows.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
-    { id: "4", name: 'Cama casal A', canvas: null, fileMTL: 'bed_double_A.mtl', texture: 'texture_purple.png', fileOBJ: 'bed_double_A.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
-    { id: "5", name: 'Cama casal B', canvas: null, fileMTL: 'bed_double_B.mtl', texture: 'texture_purple.png', fileOBJ: 'bed_double_B.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
-    { id: "6", name: 'Cama solteiro A', canvas: null, fileMTL: 'bed_single_A.mtl', texture: 'texture_purple.png', fileOBJ: 'bed_single_A.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } }
+    { id: "3", name: 'Poltrona', canvas: null, fileMTL: 'armchair_pillows.mtl', texture: 'texture_purple.png', fileOBJ: 'armchair_pillows.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
+    { id: "5", name: 'Cama casal', canvas: null, fileMTL: 'bed_double_B.mtl', texture: 'texture_purple.png', fileOBJ: 'bed_double_B.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
+    { id: "7", name: 'Cama solteiro', canvas: null, fileMTL: 'bed_single_B.mtl', texture: 'texture_purple.png', fileOBJ: 'bed_single_B.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
+    { id: "8", name: 'Livros', canvas: null, fileMTL: 'book_set.mtl', texture: 'texture_purple.png', fileOBJ: 'book_set.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
+    { id: "9", name: 'Gabinete', canvas: null, fileMTL: 'cabinet_medium.mtl', texture: 'texture_purple.png', fileOBJ: 'cabinet_medium.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
+    { id: "10", name: 'Cacto', canvas: null, fileMTL: 'cactus_medium_A.mtl', texture: 'texture_purple.png', fileOBJ: 'cactus_medium_A.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
+    { id: "12", name: 'Cadeira 2', canvas: null, fileMTL: 'chair_C.mtl', texture: 'texture_purple.png', fileOBJ: 'chair_C.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
+    { id: "13", name: 'Sofá', canvas: null, fileMTL: 'couch_pillows.mtl', texture: 'texture_purple.png', fileOBJ: 'couch_pillows.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
+    { id: "14", name: 'Lampada', canvas: null, fileMTL: 'lamp_standing.mtl', texture: 'texture_purple.png', fileOBJ: 'lamp_standing.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
+    { id: "16", name: 'Mesa', canvas: null, fileMTL: 'table_medium_long.mtl', texture: 'texture_purple.png', fileOBJ: 'table_medium_long.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
 ];
 
 export let objsRenderInfo = [];
