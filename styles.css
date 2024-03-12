@@ -35,6 +35,15 @@ body {
     width: 60vw;
 }
 
+.button {
+    margin: 3px;
+    border-radius: 15px;
+    width: 100%;
+    background-color: var(--cor-obj-background);
+    color: var(--cor-text);
+    border-color: var(--cor-border);
+}
+
 .canvas-element-list-box {
     background-color: var(--cor-obj-background);
     width: 100%;

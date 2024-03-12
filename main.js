@@ -1,7 +1,10 @@
 import {
 	objs,
-	changeThemeMode, renderObj, vs, fs, loadFileContent, objPath, mtlPath, parseOBJ, parseMTL, texturePath, getGeometriesExtents, degToRad, deepCopy
+	changeThemeMode, renderObj, loadFileContent, objPath, mtlPath, parseOBJ, parseMTL, texturePath, getGeometriesExtents, degToRad, deepCopy
 } from './utils.js';
+
+import { vs, fs, vsToon, fsToon } from './shaders-scene.js';
+
 
 let themeMode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 let objsOnScene = [];
@@ -12,9 +15,20 @@ const canvas = document.getElementById("canvas-surface");
 const glScene = canvas.getContext("webgl2");
 twgl.setAttributePrefix("a_");
 let meshProgramInfo = twgl.createProgramInfo(glScene, [vs, fs]);
+const toonProgram = twgl.createProgramInfo(glScene, [vsToon, fsToon]);
+let currentProgram = meshProgramInfo;
+
 const textures = {
 	defaultWhite: twgl.createTexture(glScene, { src: [255, 255, 255, 255] }),
 };
+
+let lights = 1;
+let lightChange = false;
+let lightsDirections = [m4.normalize([
+	parseFloat(-1),
+	parseFloat(3),
+	parseFloat(5),
+])];
 
 let loadObjectsMenu = async () => {
 	for (let i = 0; i < objs.length; i++) {
@@ -133,7 +147,7 @@ async function renderSceneObjs(gl) {
 
 			Object.values(materials).forEach(m => {
 				m.shininess = 25;
-				m.specular = [3, 2, 1];
+				m.specular = [1, 1, 1];
 			});
 
 			const defaultMaterial = {
@@ -143,7 +157,7 @@ async function renderSceneObjs(gl) {
 				specular: [1, 1, 1],
 				specularMap: textures.defaultWhite,
 				shininess: 400,
-				opacity: 1,
+				opacity: 0.1,
 			};
 
 			let parts;
@@ -158,8 +172,7 @@ async function renderSceneObjs(gl) {
 					}
 
 					const bufferInfo = twgl.createBufferInfoFromArrays(gl, data);
-					const vao = twgl.createVAOFromBufferInfo(gl, meshProgramInfo, bufferInfo);
-
+					const vao = twgl.createVAOFromBufferInfo(gl, currentProgram, bufferInfo);
 
 					return {
 						material: {
@@ -193,10 +206,13 @@ async function renderSceneObjs(gl) {
 				0,
 				radius,
 			]);
+
+
 			objsOnScene[i].values.objOffset = objOffset;
 			objsOnScene[i].values.cameraTarget = cameraTarget;
 			objsOnScene[i].values.radius = radius;
 			objsOnScene[i].values.cameraPosition = cameraPosition;
+
 		}
 	}
 }
@@ -219,18 +235,19 @@ async function render() {
 				const up = [0, 1, 0];
 				const camera = m4.lookAt(objOnScene.values.cameraPosition, objOnScene.values.cameraTarget, up);
 
+
 				const view = m4.inverse(camera);
 
-				const sharedUniforms = {
-					u_lightDirection: m4.normalize([-1, 3, 5]),
+				let sharedUniforms = {
+					u_lightDirections: lightsDirections,
 					u_view: view,
 					u_projection: projection,
 					u_viewWorldPosition: objOnScene.values.cameraPosition,
+					lights: parseFloat(lights)
 				};
 
-				glScene.useProgram(meshProgramInfo.program);
-
-				twgl.setUniforms(meshProgramInfo, sharedUniforms);
+				glScene.useProgram(currentProgram.program);
+				twgl.setUniforms(currentProgram, sharedUniforms);
 
 				let u_world = m4.identity();
 				u_world = m4.yRotation(objOnScene.values.rotationy);
@@ -240,12 +257,15 @@ async function render() {
 				for (const { bufferInfo, vao, material } of objsData[objOnScene.fileOBJ + objOnScene.texture]) {
 					glScene.bindVertexArray(vao);
 
-					twgl.setUniforms(meshProgramInfo, {
+					twgl.setUniforms(currentProgram, {
 						u_world,
 					}, material);
 
 					twgl.drawBufferInfo(glScene, bufferInfo);
 				}
+
+			} else {
+				renderSceneObjs(glScene)
 			}
 		}
 		requestAnimationFrame(render)
@@ -277,6 +297,34 @@ const main = async () => {
 	let colorPurple = document.getElementById('texture_purple.png');
 	let colorOrange = document.getElementById('texture_orange.png');
 	let colorGray = document.getElementById('texture_gray.png');
+	let addLightsButton = document.getElementById('b-add-lights');
+	let toonShaderButton = document.getElementById('b-toon-shader');
+	let light0 = document.getElementById("l-input-0");
+	let light1 = document.getElementById("l-input-1");
+	let light2 = document.getElementById("l-input-2");
+
+	addLightsButton.onclick = () => {
+		if ((lights + 1) <= 5) {
+			const newLight = m4.normalize([
+				parseFloat(light0.value),
+				parseFloat(light1.value),
+				parseFloat(light2.value),
+			]);
+
+			lights += 1;
+			lightsDirections.push(newLight);
+			lightChange = true;
+		} else alert("Permitido apenas 5 luzes!");
+
+	}
+
+	toonShaderButton.onclick = () => {
+		if (currentProgram === meshProgramInfo) {
+			currentProgram = toonProgram;
+		} else {
+			currentProgram = meshProgramInfo;
+		}
+	}
 
 	colorRed.onclick = () => {
 		if (selectedObjOnScene) {

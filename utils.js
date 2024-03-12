@@ -1,16 +1,44 @@
 
 export let objs = [
-    { id: "1", name: 'Cadeira', canvas: null, fileMTL: 'chair_A.mtl', texture: 'texture_purple.png', fileOBJ: 'chair_A.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
-    { id: "3", name: 'Poltrona', canvas: null, fileMTL: 'armchair_pillows.mtl', texture: 'texture_purple.png', fileOBJ: 'armchair_pillows.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
-    { id: "5", name: 'Cama casal', canvas: null, fileMTL: 'bed_double_B.mtl', texture: 'texture_purple.png', fileOBJ: 'bed_double_B.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
-    { id: "7", name: 'Cama solteiro', canvas: null, fileMTL: 'bed_single_B.mtl', texture: 'texture_purple.png', fileOBJ: 'bed_single_B.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
-    { id: "8", name: 'Livros', canvas: null, fileMTL: 'book_set.mtl', texture: 'texture_purple.png', fileOBJ: 'book_set.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
-    { id: "9", name: 'Gabinete', canvas: null, fileMTL: 'cabinet_medium.mtl', texture: 'texture_purple.png', fileOBJ: 'cabinet_medium.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
-    { id: "10", name: 'Cacto', canvas: null, fileMTL: 'cactus_medium_A.mtl', texture: 'texture_purple.png', fileOBJ: 'cactus_medium_A.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
-    { id: "12", name: 'Cadeira 2', canvas: null, fileMTL: 'chair_C.mtl', texture: 'texture_purple.png', fileOBJ: 'chair_C.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
-    { id: "13", name: 'Sofá', canvas: null, fileMTL: 'couch_pillows.mtl', texture: 'texture_purple.png', fileOBJ: 'couch_pillows.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
-    { id: "14", name: 'Lampada', canvas: null, fileMTL: 'lamp_standing.mtl', texture: 'texture_purple.png', fileOBJ: 'lamp_standing.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
-    { id: "16", name: 'Mesa', canvas: null, fileMTL: 'table_medium_long.mtl', texture: 'texture_purple.png', fileOBJ: 'table_medium_long.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
+    {
+        id: "1",
+        name: 'Cadeira',
+        canvas: null,
+        fileMTL: 'chair_A.mtl',
+        texture: 'texture_purple.png',
+        fileOBJ: 'chair_A.obj',
+        values: {
+            size: 5,
+            rotationx: 0.001,
+            rotationy: 0.001,
+            x: 0,
+            y: 0,
+            z: 0,
+            changed: true,
+        }
+    },
+    {
+        id: "2", name: 'Poltrona', canvas: null, fileMTL: 'armchair_pillows.mtl', texture: 'texture_purple.png',
+        fileOBJ: 'armchair_pillows.obj',
+        values: {
+            size: 5,
+            rotationx: 0.001,
+            rotationy: 0.001,
+            x: 0,
+            y: 0,
+            z: 0,
+            changed: true
+        }
+    },
+    { id: "3", name: 'Cama casal', canvas: null, fileMTL: 'bed_double_B.mtl', texture: 'texture_purple.png', fileOBJ: 'bed_double_B.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
+    { id: "4", name: 'Cama solteiro', canvas: null, fileMTL: 'bed_single_B.mtl', texture: 'texture_purple.png', fileOBJ: 'bed_single_B.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
+    { id: "5", name: 'Livros', canvas: null, fileMTL: 'book_set.mtl', texture: 'texture_purple.png', fileOBJ: 'book_set.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
+    { id: "6", name: 'Gabinete', canvas: null, fileMTL: 'cabinet_medium.mtl', texture: 'texture_purple.png', fileOBJ: 'cabinet_medium.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
+    { id: "7", name: 'Cacto', canvas: null, fileMTL: 'cactus_medium_A.mtl', texture: 'texture_purple.png', fileOBJ: 'cactus_medium_A.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
+    { id: "8", name: 'Cadeira 2', canvas: null, fileMTL: 'chair_C.mtl', texture: 'texture_purple.png', fileOBJ: 'chair_C.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
+    { id: "9", name: 'Sofá', canvas: null, fileMTL: 'couch_pillows.mtl', texture: 'texture_purple.png', fileOBJ: 'couch_pillows.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
+    { id: "10", name: 'Lampada', canvas: null, fileMTL: 'lamp_standing.mtl', texture: 'texture_purple.png', fileOBJ: 'lamp_standing.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
+    { id: "11", name: 'Mesa', canvas: null, fileMTL: 'table_medium_long.mtl', texture: 'texture_purple.png', fileOBJ: 'table_medium_long.obj', values: { size: 5, rotationx: 0.001, rotationy: 0.001, x: 0, y: 0, z: 0, changed: true } },
 ];
 
 export let objsRenderInfo = [];
@@ -272,34 +300,35 @@ export function makeIndexedIndicesFn(arrays) {
     };
     fn.numElements = indices.length;
     return fn;
-}
-export const vs = `#version 300 es
-        in vec4 a_position;
-        in vec3 a_normal;
-        in vec2 a_texcoord;
-        in vec4 a_color;
-      
-        uniform mat4 u_projection;
-        uniform mat4 u_view;
-        uniform mat4 u_world;
-        uniform vec3 u_viewWorldPosition;
-      
-        out vec3 v_normal;
-        out vec3 v_surfaceToView;
-        out vec2 v_texcoord;
-        out vec4 v_color;
-      
-        void main() {
-          vec4 worldPosition = u_world * a_position;
-          gl_Position = u_projection * u_view * worldPosition;
-          v_surfaceToView = u_viewWorldPosition - worldPosition.xyz;
-          v_normal = mat3(u_world) * a_normal;
-          v_texcoord = a_texcoord;
-          v_color = a_color;
-        }
-        `;
+};
 
-export const fs = `#version 300 es
+const vs = `#version 300 es
+    in vec4 a_position;
+    in vec3 a_normal;
+    in vec2 a_texcoord;
+    in vec4 a_color;
+
+    uniform mat4 u_projection;
+    uniform mat4 u_view;
+    uniform mat4 u_world;
+    uniform vec3 u_viewWorldPosition;
+
+    out vec3 v_normal;
+    out vec3 v_surfaceToView;
+    out vec2 v_texcoord;
+    out vec4 v_color;
+
+    void main() {
+        vec4 worldPosition = u_world * a_position;
+        gl_Position = u_projection * u_view * worldPosition;
+        v_surfaceToView = u_viewWorldPosition - worldPosition.xyz;
+        v_normal = mat3(u_world) * a_normal;
+        v_texcoord = a_texcoord;
+        v_color = a_color;
+    }
+`;
+
+const fs = `#version 300 es
         precision highp float;
       
         in vec3 v_normal;
@@ -343,6 +372,7 @@ export const fs = `#version 300 es
               effectiveOpacity);
         }
         `;
+
 
 export async function loadFileContent(filePath) {
     try {

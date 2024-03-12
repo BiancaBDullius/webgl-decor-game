@@ -64,7 +64,22 @@
                 </div>
 
             </div>
-
+            <div class="menu-edit-item">Adicionar Luz</div>
+            <div class="menu-edit-box">
+                <div class="menu-edit-item">X
+                    <input type="number" id="l-input-0" class="menu-input-movimentation" min="-100" max="100"><br />
+                </div>
+                <div class="menu-edit-item">Y
+                    <input type="number" id="l-input-1" class="menu-input-movimentation" min="-100" max="100"><br />
+                </div>
+                <div class="menu-edit-item">Z
+                    <input type="number" id="l-input-2" class="menu-input-movimentation" min="-100" max="100"><br />
+                </div>
+            </div>
+            <div>
+                <button id="b-add-lights" class="button">Adicionar Luz</button>
+                <button id="b-toon-shader" class="button">Toon Shader</button>
+            </div>
         </div>
     </div>
 
@@ -86,6 +101,7 @@
     <script src="https://webgl2fundamentals.org/webgl/resources/flattened-primitives.js"></script>
     <script type="module" src="main.js"></script>
     <script type="module" src="utils.js"></script>
+    <script type="module" src="shaders-scene.js"></script>
 </body>
 
 </html>
